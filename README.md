@@ -34,7 +34,7 @@ just so you can run
     python main.py --but-now-i-wanna-change-it 22    
 
 
-with lazyopt, you can just do this!
+with `lazyopt`, you can just do this!
 
     # main.py
     import lazyopt
@@ -45,7 +45,7 @@ with lazyopt, you can just do this!
 
     def main():
 
-      lazyopt.appy_all() 
+      lazyopt.apply_all() 
       do_what_you_came_for()
 
     if __name__ == "__main__" : main()
@@ -80,3 +80,13 @@ note that `lazyopt` does not currently provide documentation or enforce any rule
 
 `lazyopt` is best for adding command line configuration to constants a single script. it can work in more complicated situations, but you'll want to call `lazyopt.apply_all` in the python file you execute from the command line if you want to configure
 
+
+## why?
+
+laziness
+
+## who?
+
+mark neyer, gentleman coder
+
+bsd
