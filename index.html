@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Lazyopt : the lazy coder&#39;s python option parser" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Lazyopt</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/neyer/lazyopt">View on GitHub</a>
+
+          <h1 id="project_title">Lazyopt</h1>
+          <h2 id="project_tagline">the lazy coder&#39;s python option parser</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/neyer/lazyopt/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/neyer/lazyopt/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="lazyopt" class="anchor" href="#lazyopt"><span class="octicon octicon-link"></span></a>lazyopt</h1>
+
+<p><code>pip install lazyopt</code></p>
+
+<h2>
+<a name="the-lazy-coders-option-parser" class="anchor" href="#the-lazy-coders-option-parser"><span class="octicon octicon-link"></span></a>the lazy coder's option parser</h2>
+
+<p>most python scripts accumuluate a bunch of constants. eventually you might like to be able to set values for some of those constants with the command line. you could spend FOREVER writing an argument parser with <a href="http://docs.python.org/2.7/library/argparse.html">argparse</a> like this:</p>
+
+<pre><code># main.py
+import argparse
+
+IT_WAS_A_CONST = 5
+BUT_NOW_I_WANNA_CHANGE_IT = "damn"
+UGH_I_HATE_THIS = True
+
+def main():
+
+  parser = argparse.ArgumentParser(description="some stupid script")
+  parser.add_argument("--it-was-a-const", default=5,
+                     dest='was_const')
+  parser.add_argument("--but-now-i-wanna-change-it", default="damn",
+                      dest='now_change')
+  parser.add_argument("--ugh-i-hate-this", default=True,
+                      dest='hate')
+
+  args = parser.parse_args()
+  IT_WAS_A_CONST = args.was_const
+  BUT_NOW_I_WANNA_CHANGE_IT = args.now_change
+  UGH_I_HATE_THIS = args.hate
+
+  # FINALLY 
+  do_what_you_came_for() 
+
+if __name__ == "__main__" : main() 
+</code></pre>
+
+<p>just so you can run</p>
+
+<pre><code>python main.py --but-now-i-wanna-change-it 22    
+</code></pre>
+
+<p>with <code>lazyopt</code>, you can just do this!</p>
+
+<pre><code># main.py
+import lazyopt
+
+IT_WAS_A_CONST = 5
+BUT_NOW_I_WANNA_CHANGE_IT = "damn"
+UGH_I_HATE_THIS = True
+
+def main():
+
+  lazyopt.apply_all() 
+  do_what_you_came_for()
+
+if __name__ == "__main__" : main()
+</code></pre>
+
+<p>and you can still run</p>
+
+<pre><code>python  main.py --BUT-NOW-I-WANNA-CHANGE-IT 22
+</code></pre>
+
+<h2>
+<a name="how" class="anchor" href="#how"><span class="octicon octicon-link"></span></a>how</h2>
+
+<p><code>lazyopt</code> will parse any command in arguments like this:</p>
+
+<pre><code>--module_name.sub_module.var-name value-here
+</code></pre>
+
+<p>and apply <code>value-here</code> to the variable <code>var_name</code> in the module <code>module_name.sub-module</code>. if no such variable exists, you'll get a nice <code>ConfigurationError</code> to let you know.  note that <code>lazyopt</code> converts dashes to underscores for you. </p>
+
+<p>if you do not specify <code>module_name</code> , <code>lazyopt</code> will '<code>value-here</code> to <code>var_name</code> in the module you use to call <code>apply_all</code>. most of the time this will be the main script you execute.</p>
+
+<p>argument values are typecast where appropriate: "False", "True" , and "None" take on their keyword cousins. numbers are integers unless a decimal is present; everything else is a string.</p>
+
+<p>if you pass arguments without values, like so:</p>
+
+<p>--a-flag  --another-flag</p>
+
+<p>those argument names will be assigned the value 'True'</p>
+
+<p>note that <code>lazyopt</code> does not currently provide documentation or enforce any rules. it's lazy like that.</p>
+
+<h2>
+<a name="warning" class="anchor" href="#warning"><span class="octicon octicon-link"></span></a>warning</h2>
+
+<p><code>lazyopt</code> is best for adding command line configuration to constants in a single script. it can work in more complicated situations, but you'll want to call <code>lazyopt.apply_all</code> in the python file you execute from the command line.</p>
+
+<h2>
+<a name="future-plans" class="anchor" href="#future-plans"><span class="octicon octicon-link"></span></a>future plans</h2>
+
+<ul>
+<li>allow for capitalization correction where possible</li>
+<li>add option to create actual arg parser</li>
+<li>use comments as docs, default values for type checking</li>
+<li>keep on keepin' on</li>
+</ul><h2>
+<a name="why" class="anchor" href="#why"><span class="octicon octicon-link"></span></a>why?</h2>
+
+<p>laziness</p>
+
+<h2>
+<a name="who" class="anchor" href="#who"><span class="octicon octicon-link"></span></a>who?</h2>
+
+<p>mark neyer, gentleman coder</p>
+
+<p>bsd</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Lazyopt maintained by <a href="https://github.com/neyer">neyer</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
