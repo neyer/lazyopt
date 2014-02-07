@@ -1,5 +1,7 @@
 # lazyopt
 
+  `pip install lazyopt`
+
 ## the lazy coder's option parser
 
   most python scripts accumuluate a bunch of constants. eventually you might like to be able to set values for some of those constants with the command line. you could spend FOREVER writing an argument parser with [argparse](http://docs.python.org/2.7/library/argparse.html) like this:

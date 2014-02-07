@@ -1,3 +1,13 @@
+"""
+allows you to modify any constant from the command line.
+
+use lazyopt.apply_all() to apply values from command line.
+
+https://github.com/neyer/lazyopt
+
+"""
+__version__ = '1.0.0'
+
 import inspect
 import os
 import sys
