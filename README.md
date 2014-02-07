@@ -82,7 +82,8 @@ note that `lazyopt` does not currently provide documentation or enforce any rule
 
 ## warning
 
-`lazyopt` is best for adding command line configuration to constants a single script. it can work in more complicated situations, but you'll want to call `lazyopt.apply_all` in the python file you execute from the command line.
+`lazyopt` is best for adding command line configuration to constants in a single script. it can work in more complicated situations, but you'll want to call `lazyopt.apply_all` in the python file you execute from the command line.
+
 
 ## future plans
 * allow for capitalization correction where possible
