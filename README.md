@@ -29,7 +29,9 @@
       UGH_I_HATE_THIS = args.hate
 
       # FINALLY 
-      do_what_you_came_for() if __name__ == "__main__" : main() 
+      do_what_you_came_for() 
+
+    if __name__ == "__main__" : main() 
 
 just so you can run
 
@@ -66,7 +68,7 @@ and you can still run
 
 and apply `value-here` to the variable `var_name` in the module `module_name.sub-module`. if no such variable exists, you'll get a nice `ConfigurationError` to let you know.  note that `lazyopt` converts dashes to underscores for you. 
 
-if you do not specify `module_name` , `lazyopt` will '`value-here` to `var_name` in the module you use to call lazy_opt. most of the time this will be the main script you execute.
+if you do not specify `module_name` , `lazyopt` will '`value-here` to `var_name` in the module you use to call `apply_all`. most of the time this will be the main script you execute.
 
 argument values are typecast where appropriate: "False", "True" , and "None" take on their keyword cousins. numbers are integers unless a decimal is present; everything else is a string.
 
@@ -80,7 +82,7 @@ note that `lazyopt` does not currently provide documentation or enforce any rule
 
 ## warning
 
-`lazyopt` is best for adding command line configuration to constants a single script. it can work in more complicated situations, but you'll want to call `lazyopt.apply_all` in the python file you execute from the command line if you want to configure
+`lazyopt` is best for adding command line configuration to constants a single script. it can work in more complicated situations, but you'll want to call `lazyopt.apply_all` in the python file you execute from the command line.
 
 ## future plans
 * allow for capitalization correction where possible
