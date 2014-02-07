@@ -16,20 +16,20 @@
     def main():
 
       parser = argparse.ArgumentParser(description="some stupid script")
-      parser.add_argument("--it-was-a-const", default=5)
-      parser.add_argument("--but-now-i-wanna-change-it", default="damn")
-      parser.add_argument("--ugh-i-hate-this", default=True)
+      parser.add_argument("--it-was-a-const", default=5,
+                         dest='was_const')
+      parser.add_argument("--but-now-i-wanna-change-it", default="damn",
+                          dest='now_change')
+      parser.add_argument("--ugh-i-hate-this", default=True,
+                          dest='hate')
 
-      args = parse.parse_args()
-      IT_WAS_A_CONST = args.it_was_a_const
-      BUT_NOW_I_WANNA_CHANGE_IT = args.but_i_wanna_change_it
-      UGH_I_HATE_THIS = args.ugh_i_hate_this
+      args = parser.parse_args()
+      IT_WAS_A_CONST = args.was_const
+      BUT_NOW_I_WANNA_CHANGE_IT = args.now_change
+      UGH_I_HATE_THIS = args.hate
 
       # FINALLY 
-      do_what_you_came_for()
-      
-    if __name__ == "__main__" : main() 
-
+      do_what_you_came_for() if __name__ == "__main__" : main() 
 
 just so you can run
 
@@ -54,7 +54,7 @@ with `lazyopt`, you can just do this!
 
 and you can still run
 
-    python  main.py --but-now-i-wanna-change-it 22
+    python  main.py --BUT-NOW-I-WANNA-CHANGE-IT 22
 
 
 
@@ -81,6 +81,12 @@ note that `lazyopt` does not currently provide documentation or enforce any rule
 ## warning
 
 `lazyopt` is best for adding command line configuration to constants a single script. it can work in more complicated situations, but you'll want to call `lazyopt.apply_all` in the python file you execute from the command line if you want to configure
+
+## future plans
+* allow for capitalization correction where possible
+* add option to create actual arg parser
+* use comments as docs, default values for type checking
+* keep on keepin' on
 
 
 ## why?
