@@ -30,10 +30,19 @@ class LazyoptTest(unittest.TestCase):
             "ignore-me-too",
             "--baz-str", "b.b.b",
             "--non-str", "None",
+            "--is-false", "False",
             "--end-flag"]
 
 
     bindings = lazyopt.get_argv_bindings(args)
+
+    self.assertEqual(bindings["bool-flag"], True)
+    self.assertEqual(bindings["foo-int"], 5)
+    self.assertEqual(bindings["bar-float"], 4.5)
+    self.assertEqual(bindings["baz-str"], "b.b.b")
+    self.assertEqual(bindings["non-str"], None)
+    self.assertEqual(bindings["is-false"], False)
+    self.assertEqual(bindings["end-flag"], True)
 
     # now try a duplicate config
     args = [ "--double-flag", "--double-flag" ]
@@ -59,22 +68,24 @@ class LazyoptTest(unittest.TestCase):
   def test_apply_binding(self):
     "Make sure bindings can be applied to a module"
 
-    lazyopt.apply_binding("lazyopt.fake_module.VAL_IS_2", 3)
-    lazyopt.apply_binding("lazyopt.fake_module.VAL_IS_FOO", "bar")
+    lazyopt.apply_binding("lazyopt.fake_module","VAL_IS_2", 3)
+    lazyopt.apply_binding("lazyopt.fake_module","VAL_IS_FOO", "bar")
 
     self.assertEqual(lazyopt.fake_module.VAL_IS_2, 3)
     self.assertEqual(lazyopt.fake_module.VAL_IS_FOO, "bar")
 
-    lazyopt.apply_binding("lazyopt.fake_module.VAL-IS-2", 5)
-    lazyopt.apply_binding("lazyopt.fake_module.VAL-IS-FOO", "baz")
-
-    self.assertEqual(lazyopt.fake_module.VAL_IS_2, 5)
-    self.assertEqual(lazyopt.fake_module.VAL_IS_FOO, "baz")
-
-
 
     with self.assertRaises(lazyopt.ConfigurationError):
-      lazyopt.apply_binding("lazyopt.fake_module.PANTS_MAN", "totenhosen")
+      lazyopt.apply_binding("lazyopt.fake_module","PANTS_MAN", "totenhosen")
+
+  def test_get_caller_module(self):
+
+    
+    def spurious_function():
+      return lazyopt.get_caller_module().__name__
+    
+    module_name = spurious_function()
+    self.assertEqual(module_name, 'lazyopt.tests')
 
 
 

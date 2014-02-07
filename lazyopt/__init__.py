@@ -30,7 +30,7 @@ def cast_value_str(value):
       return value
   
 
-def get_argv_bindings(argv=sys.argv):
+def get_argv_bindings(argv):
   """Parse `argv` and return dict of new bindings."""
   results = {}
   this_arg_name = None
@@ -41,7 +41,7 @@ def get_argv_bindings(argv=sys.argv):
     if this_arg_name:
       #if the next arg is another name, this_arg_name is a flag
       if arg.find('--') == 0:
-        value = True
+        value = 'True'
         name = this_arg_name
         this_arg_name = arg[2:]
       else:
@@ -54,7 +54,7 @@ def get_argv_bindings(argv=sys.argv):
         raise ConfigurationError("duplicate arg %s" % name)
       else:
         # store the binding
-        results[name] = value
+        results[name] = cast_value_str(value)
     else:
       #check to see if this option is an arg name
       if arg.find('--') == 0:
@@ -77,17 +77,14 @@ def get_argv_bindings(argv=sys.argv):
 def get_module_and_var_name(var_name):
   "Convert an option name to a module,variable pair."
   parts = var_name.split('.')
-
   module_name = ('.'.join(parts[:-1])).replace('-','_')
   var_name = parts[-1].replace('-','_')
 
   return module_name, var_name
 
 
-def apply_binding(name, value):
-  "Set module-qualified variable `name` to `value`"
-
-  module_name, var_name = get_module_and_var_name(name)
+def apply_binding(module_name, var_name, value):
+  "Set module `module_name` variable `var_name` to `value`."
 
   __import__(module_name, globals(), locals(), [], 0)
   module = sys.modules.get(module_name)
@@ -98,4 +95,20 @@ def apply_binding(name, value):
     msg = 'module %s has no value %s to confgure with value %s.'
     msg = msg % (module_name, var_name, value)
     raise ConfigurationError(msg)
+
+def get_caller_module():
+  "get the name of the module in which this function was called."
+  stack = inspect.currentframe()
+  return inspect.getmodule(stack.f_back.f_back.f_code)
+
+def apply_all(argv=sys.argv):
+  bindings = get_argv_bindings(argv)
+  # figure out who called into this frame so args without module names work
+  caller_module = get_caller_module().__name__
+
+  for name, value in bindings.items():
+      module_name, var_name = get_module_and_var_name(name)
+      if not module_name:
+          module_name = caller_module
+      apply_binding(module_name, var_name, value)
 
