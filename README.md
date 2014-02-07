@@ -64,7 +64,7 @@ and you can still run
 
 and apply `value-here` to the variable `var_name` in the module `module_name.sub-module`. if no such variable exists, you'll get a nice `ConfigurationError` to let you know.  note that `lazyopt` converts dashes to underscores for you. 
 
-if you do not specify `module_name` , `lazyopt` will apply search for `var_name` in the module you use to call lazy_opt. 
+if you do not specify `module_name` , `lazyopt` will '`value-here` to `var_name` in the module you use to call lazy_opt. most of the time this will be the main script you execute.
 
 argument values are typecast where appropriate: "False", "True" , and "None" take on their keyword cousins. numbers are integers unless a decimal is present; everything else is a string.
 
