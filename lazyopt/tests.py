@@ -74,9 +74,17 @@ class LazyoptTest(unittest.TestCase):
     self.assertEqual(lazyopt.fake_module.VAL_IS_2, 3)
     self.assertEqual(lazyopt.fake_module.VAL_IS_FOO, "bar")
 
-
     with self.assertRaises(lazyopt.ConfigurationError):
       lazyopt.apply_binding("lazyopt.fake_module","PANTS_MAN", "totenhosen")
+
+  def test_apply_binding_cap_correct(self):
+    "Make sure bindings can be applied to a module"
+
+    lazyopt.apply_binding("lazyopt.fake_module","val_is_2", 3)
+    lazyopt.apply_binding("lazyopt.fake_module","val_is_FOO", "bar")
+
+    self.assertEqual(lazyopt.fake_module.VAL_IS_2, 3)
+    self.assertEqual(lazyopt.fake_module.VAL_IS_FOO, "bar")
 
   def test_get_caller_module(self):
 

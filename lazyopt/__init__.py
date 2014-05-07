@@ -6,7 +6,7 @@ use lazyopt.apply_all() to apply values from command line.
 https://github.com/neyer/lazyopt
 
 """
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 import inspect
 import os
@@ -101,6 +101,8 @@ def apply_binding(module_name, var_name, value):
 
   if hasattr(module, var_name):
     setattr(module, var_name, value)
+  elif hasattr(module, var_name.upper()):
+      setattr(module, var_name.upper(), value)
   else:
     msg = 'module %s has no value %s to confgure with value %s.'
     msg = msg % (module_name, var_name, value)
