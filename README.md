@@ -56,8 +56,7 @@ with `lazyopt`, you can just do this!
 
 and you can still run
 
-    python  main.py --BUT-NOW-I-WANNA-CHANGE-IT 22
-
+    python  main.py --but-now-i-wanna-change-it 22
 
 
 ## how
@@ -66,7 +65,7 @@ and you can still run
 
     --module_name.sub_module.var-name value-here
 
-and apply `value-here` to the variable `var_name` in the module `module_name.sub-module`. if no such variable exists, you'll get a nice `ConfigurationError` to let you know.  note that `lazyopt` converts dashes to underscores for you. 
+and apply `value-here` to the variable `var_name` in the module `module_name.sub-module`. if no such variable exists, you'll get a nice `ConfigurationError` to let you know.  note that `lazyopt` converts dashes to underscores for you. if it can't find a name, lazyopt will try to capitalize it for you. 
 
 if you do not specify `module_name` , `lazyopt` will '`value-here` to `var_name` in the module you use to call `apply_all`. most of the time this will be the main script you execute.
 
@@ -86,7 +85,6 @@ note that `lazyopt` does not currently provide documentation or enforce any rule
 
 
 ## future plans
-* allow for capitalization correction where possible
 * add option to create actual arg parser
 * use comments as docs, default values for type checking
 * keep on keepin' on
